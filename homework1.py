@@ -24,6 +24,7 @@ def simulate_portfolio (start_date, end_date, symbols, allocations):
     allocated_prices = normalized_prices * allocations
     
     return _vol, _daily_ret, _sharpe, _cumulative_ret
+
 # Inputs
 start_date = dt.datetime(2011, 1, 1)
 end_date = dt.datetime(2011, 12, 31)
