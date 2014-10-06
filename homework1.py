@@ -66,19 +66,21 @@ def is_valid_allocations(allocation):
     total = 0.0
     for value in allocation:
         total += value
-    return total == 1.0
+    return 1.0 == round(total, 1)
+        
 
 # Inputs
 start_date = dt.datetime(2010, 1, 1)
 end_date = dt.datetime(2010, 12, 31)
-symbols = ['AXP', 'HPQ', 'IBM', 'HNZ']
+symbols = ['C', 'GS', 'IBM', 'HNZ']
 
 # allocations = [0.3, 0.2, 0.3, 0.2]
 
 def legal_allocation(start, end, step):
-    while start <= end:
-        yield start
-        start += step
+    r = start
+    while r < end:
+        yield r
+        r += step
 
 max_sharpe_ratio = -1.0
 optimal_allocations = [0.0, 0.0, 0.0, 0.0]
