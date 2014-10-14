@@ -69,42 +69,43 @@ def is_valid_allocations(allocation):
     return 1.0 == round(total, 1)
         
 
-# Inputs
-start_date = dt.datetime(2010, 1, 1)
-end_date = dt.datetime(2010, 12, 31)
-symbols = ['C', 'GS', 'IBM', 'HNZ']
-
-# allocations = [0.3, 0.2, 0.3, 0.2]
-
-def legal_allocation(start, end, step):
-    r = start
-    while r < end:
-        yield r
-        r += step
-
-max_sharpe_ratio = -1.0
-optimal_allocations = [0.0, 0.0, 0.0, 0.0]
-
-for A1 in legal_allocation(0.0, 1.0, 0.1):
-    for A2 in legal_allocation(0.0, 1.0, 0.1):
-        for A3 in legal_allocation(0.0, 1.0, 0.1):
-            for A4 in legal_allocation(0.0, 1.0, 0.1):
-                allocations = [A1, A2, A3, A4]
-                print 'Trying allocations: ' + str(allocations)
-                if is_valid_allocations(allocations):                
-                    # Call simulate() function
-                    print 'Legal allocations: ' + str(allocations)
-                    volatility, daily_return, sharpe_ratio, cumulative_return = simulate_portfolio(start_date, end_date, symbols, allocations)
-                    if (sharpe_ratio >= max_sharpe_ratio):
-                        max_sharpe_ratio = sharpe_ratio   
-                        optimal_allocations = allocations
-                
+if __name__ == '__main__':
+    # Inputs
+    start_date = dt.datetime(2010, 1, 1)
+    end_date = dt.datetime(2010, 12, 31)
+    symbols = ['C', 'GS', 'IBM', 'HNZ']
+    
+    # allocations = [0.3, 0.2, 0.3, 0.2]
+    
+    def legal_allocation(start, end, step):
+        r = start
+        while r < end:
+            yield r
+            r += step
+    
+    max_sharpe_ratio = -1.0
+    optimal_allocations = [0.0, 0.0, 0.0, 0.0]
+    
+    for A1 in legal_allocation(0.0, 1.0, 0.1):
+        for A2 in legal_allocation(0.0, 1.0, 0.1):
+            for A3 in legal_allocation(0.0, 1.0, 0.1):
+                for A4 in legal_allocation(0.0, 1.0, 0.1):
+                    allocations = [A1, A2, A3, A4]
+                    print 'Trying allocations: ' + str(allocations)
+                    if is_valid_allocations(allocations):                
+                        # Call simulate() function
+                        print 'Legal allocations: ' + str(allocations)
+                        volatility, daily_return, sharpe_ratio, cumulative_return = simulate_portfolio(start_date, end_date, symbols, allocations)
+                        if (sharpe_ratio >= max_sharpe_ratio):
+                            max_sharpe_ratio = sharpe_ratio   
+                            optimal_allocations = allocations
                     
-print 'Optimal allocations: ' + str(optimal_allocations)
-print 'Sharpe Ratio: ' + str(max_sharpe_ratio)
-
-#print 'Sharpe Ratio: ' + str(sharpe_ratio)
-#print 'Volatility (stdev of daily returns): ' + str(volatility)
-#print 'Average Daily Return: ' + str(daily_return)
-#print 'Cumulative Return: ' + str(cumulative_return)
+                        
+    print 'Optimal allocations: ' + str(optimal_allocations)
+    print 'Sharpe Ratio: ' + str(max_sharpe_ratio)
+    
+    #print 'Sharpe Ratio: ' + str(sharpe_ratio)
+    #print 'Volatility (stdev of daily returns): ' + str(volatility)
+    #print 'Average Daily Return: ' + str(daily_return)
+    #print 'Cumulative Return: ' + str(cumulative_return)
     
