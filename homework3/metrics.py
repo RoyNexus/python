@@ -28,7 +28,8 @@ class Metrics:
         
     def get_daily_std(self):
         normalized_prices = self.grossValues/ self.grossValues[0]
-        daily_rets = tsu.returnize0(normalized_prices)        
+        daily_rets = tsu.returnize0(normalized_prices)
+        daily_rets = daily_rets.astype('float')
         stdev_daily = np.std(daily_rets - 1, axis=0)
         volatility = stdev_daily[0];
         return volatility
@@ -36,7 +37,7 @@ class Metrics:
     def get_daily_return(self):
         normalized_prices = self.grossValues/ self.grossValues[0]
         daily_rets = tsu.returnize0(normalized_prices)
-        daily_return = get_average(daily_rets)
+        daily_return = self.get_average(daily_rets)
         return daily_return
         
     def get_average(self, naRets):

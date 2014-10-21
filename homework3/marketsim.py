@@ -183,7 +183,10 @@ def main(arguments):
     write_output_file(values_file, total_values_by_date, len(prices.values))
     print "Details of portfolio\n"
     metrics = Metrics(total_values_by_date[VALUE])
-    print "Sharpe Ratio of Fund: " + metrics.get_sharpe_ratio()
+    print "Sharpe Ratio of Fund: " + str(metrics.get_sharpe_ratio())
+    print "Total Return of Fund: " + str(metrics.get_cumulative_return())
+    print "Standard Deviation of Fund: " + str(metrics.get_daily_std())
+    print "Average Daily Return of Fund: " + str(metrics.get_daily_return())
     
 
 if __name__ == '__main__':
