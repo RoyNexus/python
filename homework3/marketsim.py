@@ -12,6 +12,7 @@ import sys as sys
 import csv as csv
 
 from order import Order
+from metrics import Metrics
 
 DATETIME = 0
 VALUE = 1
@@ -127,9 +128,9 @@ def calculate_portfolio(symbols, prices, orders):
             resultMatrix[VALUE, x][get_sym_pos(symbols, dayOrder.get_symbol())] = calc_portfolio(dayOrder, resultMatrix[VALUE, x][get_sym_pos(symbols, dayOrder.get_symbol())])
             resultMatrix = update_portfolio_forward(resultMatrix, x, lenPortfolioMatrix)
     
-    print '\n\nPortfolio shares: ' + str(resultMatrix[VALUE])
+    #print '\n\nPortfolio shares: ' + str(resultMatrix[VALUE])
     resultMatrix = applyCurrentDatePrices(resultMatrix, prices, symbols)
-    print '\n\nPortfolio value: ' + str(resultMatrix[VALUE])
+    #print '\n\nPortfolio value: ' + str(resultMatrix[VALUE])
     return resultMatrix    
 
 def calculate_cash(initial_cash, prices, orders):
@@ -145,7 +146,7 @@ def calculate_cash(initial_cash, prices, orders):
             resultMatrix[VALUE, x] = calc_cash(dayOrder, resultMatrix[VALUE, x], prices)
             resultMatrix = update_cash_forward(resultMatrix, x, lenCashMatrix)
         
-    print resultMatrix[VALUE]
+    #print resultMatrix[VALUE]
     return resultMatrix
 
 def sum_portfolio_values(valueInCurrentDate):
@@ -180,6 +181,10 @@ def main(arguments):
     total_values_by_date = sum_cash_and_portfolio(cash, portfolio, len(prices.values))
     print "Writing into output file: " + str(values_file)
     write_output_file(values_file, total_values_by_date, len(prices.values))
+    print "Details of portfolio\n"
+    metrics = Metrics(total_values_by_date[VALUE])
+    print "Sharpe Ratio of Fund: " + metrics.get_sharpe_ratio()
+    
 
 if __name__ == '__main__':
     main(sys.argv)
