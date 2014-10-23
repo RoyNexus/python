@@ -1,20 +1,4 @@
-'''
-(c) 2011, 2012 Georgia Tech Research Corporation
-This source code is released under the New BSD license.  Please see
-http://wiki.quantsoftware.org/index.php?title=QSTK_License
-for license details.
-
-Created on January, 23, 2013
-
-@author: Sourabh Bajaj
-@contact: sourabhbajaj@gatech.edu
-@summary: Event Profiler Tutorial
-'''
-
-
-import pandas as pd
 import numpy as np
-import math
 import copy
 import QSTK.qstkutil.qsdateutil as du
 import datetime as dt
@@ -67,7 +51,7 @@ def find_events(ls_symbols, d_data):
             # market is up more then 2%
             #if f_symreturn_today <= -0.03 and f_marketreturn_today >= 0.02:
             #    df_events[s_sym].ix[ldt_timestamps[i]] = 1
-            if f_symprice_yest >= 8.0 and f_symprice_today < 8.0:
+            if f_symprice_yest >= 6.0 and f_symprice_today < 6.0:
                 df_events[s_sym].ix[ldt_timestamps[i]] = 1            
 
     return df_events
@@ -79,7 +63,7 @@ if __name__ == '__main__':
     ldt_timestamps = du.getNYSEdays(dt_start, dt_end, dt.timedelta(hours=16))
 
     dataobj = da.DataAccess('Yahoo')
-    ls_symbols = dataobj.get_symbols_from_list('sp5002008')
+    ls_symbols = dataobj.get_symbols_from_list('sp5002012')
     ls_symbols.append('SPY')
 
     ls_keys = ['open', 'high', 'low', 'close', 'volume', 'actual_close']
@@ -87,9 +71,10 @@ if __name__ == '__main__':
     d_data = dict(zip(ls_keys, ldf_data))
 
     for s_key in ls_keys:
-        d_data[s_key] = d_data[s_key].fillna(method='ffill')
-        d_data[s_key] = d_data[s_key].fillna(method='bfill')
-        d_data[s_key] = d_data[s_key].fillna(1.0)
+        #d_data[s_key] = d_data[s_key].fillna(method='ffill')
+        #d_data[s_key] = d_data[s_key].fillna(method='bfill')
+        #d_data[s_key] = d_data[s_key].fillna(1.0)
+        '''At every event Buy 100 shares of the equity, and Sell them 5 trading days later. In case not enough days are available Sell them on the last trading day. (Similar to what the homework 4 description wanted). '''
 
     df_events = find_events(ls_symbols, d_data)
     print "Creating Study"
