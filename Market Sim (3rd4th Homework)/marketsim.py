@@ -16,6 +16,7 @@ from metrics import Metrics
 
 DATETIME = 0
 VALUE = 1
+DEFAULT_CASH = 50000
 
 def read_arguments(arguments):
     if len(arguments) == 3:
@@ -23,7 +24,7 @@ def read_arguments(arguments):
     else:
         print 'Incorrect number of arguments, assume default arguments'
         # raise Exception
-        return 1000000, "orders.csv", "values.csv"
+        return DEFAULT_CASH, "orders.csv", "values.csv"
 
 def read_orders(file):
     reader = csv.reader(open(file, 'rU'), delimiter=',')
@@ -175,6 +176,7 @@ def main(arguments):
     print "Reading from input file: " + str(orders_file)
     orders_array = read_orders(orders_file)
     symbols_list, dates_list = get_symbols_and_dates(orders_array)
+    dates_list.sort()
     prices = get_close_prices(dates_list[0], dates_list[len(dates_list)-1] + dt.timedelta(days=1), symbols_list)
     cash = calculate_cash(initial_cash, prices, orders_array)
     portfolio = calculate_portfolio(symbols_list, prices, orders_array)

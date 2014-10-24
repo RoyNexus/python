@@ -11,7 +11,8 @@ class Metrics:
         self.grossValues = grossValues
         
     def get_sharpe_ratio(self):
-        normalized_prices = self.grossValues/ self.grossValues[0]
+        grossValuesFloat = self.grossValues.astype('float') 
+        normalized_prices = grossValuesFloat / grossValuesFloat[0]
         daily_rets = tsu.returnize0(normalized_prices)
         daily_rets = daily_rets.astype('float')        
         fDev = np.std(daily_rets - 1, axis=0) 
@@ -22,12 +23,14 @@ class Metrics:
         return fSharpe[0]
         
     def get_cumulative_return(self):
-        normalized_prices = self.grossValues/ self.grossValues[0]
+        grossValuesFloat = self.grossValues.astype('float') 
+        normalized_prices = grossValuesFloat / grossValuesFloat[0]
         cumulative_ret = normalized_prices[-1]
         return cumulative_ret
         
     def get_daily_std(self):
-        normalized_prices = self.grossValues/ self.grossValues[0]
+        grossValuesFloat = self.grossValues.astype('float') 
+        normalized_prices = grossValuesFloat / grossValuesFloat[0]
         daily_rets = tsu.returnize0(normalized_prices)
         daily_rets = daily_rets.astype('float')
         stdev_daily = np.std(daily_rets - 1, axis=0)
@@ -35,7 +38,8 @@ class Metrics:
         return volatility
         
     def get_daily_return(self):
-        normalized_prices = self.grossValues/ self.grossValues[0]
+        grossValuesFloat = self.grossValues.astype('float') 
+        normalized_prices = grossValuesFloat / grossValuesFloat[0]
         daily_rets = tsu.returnize0(normalized_prices)
         daily_return = self.get_average(daily_rets)
         return daily_return
