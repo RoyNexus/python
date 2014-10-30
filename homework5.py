@@ -26,11 +26,14 @@ if __name__ == '__main__':
     # Inputs
     start_date = dt.datetime(2009, 1, 1)
     end_date = dt.datetime(2011, 12, 31)
+    current_date = dt.datetime(2010, 4, 20)
     symbols = ['AAPL', 'MSFT', 'IBM']
     
-    prices = get_close_prices(start_date, end_date, symbols)
+    prices_serie = get_close_prices(start_date, end_date, symbols)
 
-    bollinger_obj = Bollinger(price_series)
+    print prices_serie
+
+    bollinger_obj = Bollinger(prices_serie)
     
                                                 
     print 'Bollinger value: ' + str(bollinger_obj.get_value(current_date))

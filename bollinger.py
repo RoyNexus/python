@@ -10,7 +10,7 @@ class Bollinger:
     def __init__(self, prices):
         self.prices = prices
                          
-    def get_value(date):
+    def get_value(self, date):
         result = 0
         # Bollinger_val = (price - rolling_mean) / (rolling_std)
         
