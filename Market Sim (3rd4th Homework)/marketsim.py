@@ -16,7 +16,7 @@ from metrics import Metrics
 
 DATETIME = 0
 VALUE = 1
-DEFAULT_CASH = 50000
+DEFAULT_CASH = 100000
 
 def read_arguments(arguments):
     if len(arguments) == 3:
@@ -158,6 +158,9 @@ def sum_portfolio_values(valueInCurrentDate):
 
 def sum_cash_and_portfolio(cash, portfolio, size):
     for x in xrange(0, size):
+        print 'cash: ' +str(cash[VALUE, x])
+        print 'portfolio: '+str(sum_portfolio_values(portfolio[VALUE, x]))
+        
         cash[VALUE, x] = cash[VALUE, x] + sum_portfolio_values(portfolio[VALUE, x])
     return cash
 
