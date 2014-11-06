@@ -5,7 +5,7 @@ import QSTK.qstkutil.DataAccess as da
 
 # Third Party Imports
 import datetime as dt
-#import matplotlib.pyplot as plt
+import math as math
 import pandas as pd
 import numpy as np
 import sys as sys
@@ -67,8 +67,11 @@ def checkForOrders(orderObjects, currentDate):
     return result
 
 def get_current_price(prices, symbol, current_date):
+    result = 0
     pricesSymbol = prices[symbol]
-    return pricesSymbol[current_date]
+    if (not (math.isnan(pricesSymbol[current_date]))):
+        result = pricesSymbol[current_date]
+    return result
 
 def get_sym_pos(symbols, symbol):
     result = 0
@@ -127,11 +130,8 @@ def calculate_portfolio(symbols, prices, orders):
         dayOrders = checkForOrders(orderObjects, resultMatrix[DATETIME, x])
         for dayOrder in dayOrders:
             resultMatrix[VALUE, x][get_sym_pos(symbols, dayOrder.get_symbol())] = calc_portfolio(dayOrder, resultMatrix[VALUE, x][get_sym_pos(symbols, dayOrder.get_symbol())])
-            resultMatrix = update_portfolio_forward(resultMatrix, x, lenPortfolioMatrix)
-    
-    #print '\n\nPortfolio shares: ' + str(resultMatrix[VALUE])
-    resultMatrix = applyCurrentDatePrices(resultMatrix, prices, symbols)
-    #print '\n\nPortfolio value: ' + str(resultMatrix[VALUE])
+            resultMatrix = update_portfolio_forward(resultMatrix, x, lenPortfolioMatrix)       
+    resultMatrix = applyCurrentDatePrices(resultMatrix, prices, symbols)    
     return resultMatrix    
 
 def calculate_cash(initial_cash, prices, orders):
@@ -157,10 +157,7 @@ def sum_portfolio_values(valueInCurrentDate):
     return result
 
 def sum_cash_and_portfolio(cash, portfolio, size):
-    for x in xrange(0, size):
-        print 'cash: ' +str(cash[VALUE, x])
-        print 'portfolio: '+str(sum_portfolio_values(portfolio[VALUE, x]))
-        
+    for x in xrange(0, size):        
         cash[VALUE, x] = cash[VALUE, x] + sum_portfolio_values(portfolio[VALUE, x])
     return cash
 
